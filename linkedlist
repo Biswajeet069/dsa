@@ -1,0 +1,163 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node* next;
+}Node;
+Node* head=NULL;
+Node* headnew=NULL;
+Node* tail=NULL;
+Node* tailnew=NULL;
+void create1(){
+    while(1){
+    Node* new=(Node*)malloc(sizeof(Node));
+    char cha;
+    printf("Enter data:");
+    scanf("%d",&new->data);
+    new->next=NULL;
+    if(head==NULL){
+        head=new;
+        tail=new;
+    }
+    else{
+        tail->next=new;
+        tail=new;
+    }
+  
+    printf("insert another node(y/n):");
+    scanf(" %c", &cha);
+    if(cha!='y' && cha!='Y') break;
+    }
+}
+
+void create2(){
+    while(1){
+    Node* new=(Node*)malloc(sizeof(Node));
+    char cha;
+    printf("Enter data:");
+    scanf("%d",&new->data);
+    new->next=NULL;
+    if(headnew==NULL){
+        headnew=new;
+        tailnew=new;
+    }
+    else{
+        tailnew->next=new;
+        tailnew=new;
+    }
+  
+    printf("insert another node(y/n):");
+    scanf(" %c", &cha);
+    if(cha!='y' && cha!='Y') break;
+    }
+}
+
+
+void concat(){
+    if (head==NULL) head=headnew;
+    if(headnew==NULL)head=head;
+    else{
+        Node* temp=head;
+        while(temp->next){
+            temp=temp->next;
+        }
+        temp->next=headnew;
+        return;
+    }
+}
+
+
+void display(){
+    if(head==NULL){
+        printf("empty LL\n");
+        return;
+    }
+    Node* temp=head;
+    printf("LinkedList content:");
+    while(temp){
+        printf("%d\t",temp->data);
+        temp=temp->next;
+    }
+    printf("NULL\n");
+}
+
+
+void reverse(){
+    if(!head || !(head->next)){
+        return;
+    }
+    Node* prev=NULL;
+    Node* curr=head;
+    Node* forward;
+    while(curr){
+        forward=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=forward;
+    }
+    head=prev;
+}
+void sort(){
+    if(!head || !(head->next)){
+        return;
+    }
+    Node* temp=head;
+    while(temp){
+        Node* inner=temp->next;
+        while(inner){
+            if(temp->data>inner->data){
+                int x=temp->data;
+                temp->data=inner->data;
+                inner->data=x;
+            }
+            inner=inner->next;
+        }
+        temp=temp->next;
+    }
+}
+
+
+int main(){
+    printf("1-create,2-reverse,3-sort,4-concat,5-display,6-exit\n");
+    while(1){
+        printf("Enter choice:");
+        int s;
+        scanf(" %d",&s);
+        switch(s){
+            case 1:create1();break;
+            case 2:reverse();break;
+            case 3:sort();break;
+            case 4:create2();concat();break;
+            case 5:display();break;
+            case 6:exit(0);
+     } 
+    }
+    return 0;
+}
+
+o/p
+
+1-create,2-reverse,3-sort,4-concat,5-display,6-exit
+Enter choice: 1
+Enter data: 5
+insert another node(y/n): y
+Enter data: 10
+insert another node(y/n): n
+Enter choice: 4
+Enter data: 15
+insert another node(y/n): y
+Enter data: 20
+insert another node(y/n): n
+Enter choice: 5
+LinkedList content: 5    10    NULL
+LinkedList content: 15    20    NULL
+Enter choice: 3
+Enter choice: 5
+LinkedList content: 5    10    NULL
+LinkedList content: 15    20    NULL
+Enter choice: 2
+Enter choice: 5
+LinkedList content: 10    5    NULL
+LinkedList content: 20    15    NULL
+Enter choice: 6
