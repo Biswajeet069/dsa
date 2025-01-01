@@ -1,0 +1,170 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define S 3
+
+int count1 = 0, count2 = 0;
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+Node* head = NULL;      // Head pointer for stack
+Node* headnew = NULL;   // Head pointer for queue
+
+void push() { //insert at head
+    if (count1 == S) {
+        printf("overflow\n");
+        return;
+    }
+    Node* new = (Node*)malloc(sizeof(Node));
+    printf("Enter data: ");
+    scanf("%d", &new->data);
+    new->next = head;
+    head = new;
+    count1++;
+}
+
+void pop() {
+    if (head == NULL) {
+        printf("Underflow\n");
+        return;
+    }
+    Node* temp = head;
+    head = head->next;
+    free(temp);
+    count1--;
+}
+
+void displaystack() {
+    if (head == NULL) {
+        printf("empty stack\n");
+        return;
+    }
+    Node* temp = head;
+    printf("content: ");
+    while (temp) {
+        printf("%d\t", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+void enqueue() {  //insert at end
+    if (count2 == S) {
+        printf("overflow\n");
+        return;
+    }
+    Node* new = (Node*)malloc(sizeof(Node));
+    printf("Enter data: ");
+    scanf("%d", &new->data);
+    new->next = NULL;
+
+    if (headnew == NULL) {
+        headnew = new;
+    } else {
+        Node* temp = headnew;
+        while (temp->next) {
+            temp = temp->next;
+        }
+        temp->next = new;
+    }
+
+    count2++;
+}
+
+void dequeue() {
+    if (headnew == NULL) {
+        printf("Underflow\n");
+        return;
+    }
+    Node* temp = headnew;
+    headnew = headnew->next;
+    free(temp);
+    count2--;
+}
+
+void displayqueue() {
+    if (headnew == NULL) { // Correctly states "empty queue"
+        printf("empty queue\n");
+        return;
+    }
+    
+    Node* temp = headnew;
+    printf("content: ");
+    
+    while (temp) {
+        printf("%d\t", temp->data);
+        temp = temp->next;
+    }
+    
+    printf("\n");
+}
+
+void stack() {
+    printf("Stack implementation\n");
+    printf("1-push, 2-pop, 3-display, 4-return\n");
+    while (1) {
+         printf("Enter choice: ");
+         int s;
+         scanf(" %d", &s);
+         switch (s) {
+             case 1: push(); break; 
+             case 2: pop(); break; 
+             case 3: displaystack(); break; 
+             case 4: return; 
+         }
+     }
+}
+
+void queue() {
+    printf("\nQueue implementation\n");
+     printf("1-enqueue, 2-dequeue, 3-display, 4-return\n");
+     while (1) {
+         printf("Enter choice: ");
+         int s;
+         scanf(" %d", &s);
+         switch (s) {
+             case 1: enqueue(); break; 
+             case 2: dequeue(); break; 
+             case 3: displayqueue(); break; 
+             case 4: return; 
+         }
+     }
+}
+
+int main() {
+    
+    stack();  
+    queue();  
+    return 0;
+}
+
+0/p
+
+Stack implementation
+1-push, 2-pop, 3-display, 4-return
+Enter choice: 1
+Enter data: 10
+Enter choice: 1
+Enter data: 20
+Enter choice: 3
+content: 20    10    
+Enter choice: 2
+Enter choice: 3
+content: 10    
+Enter choice: 4
+
+Queue implementation
+1-enqueue, 2-dequeue, 3-display, 4-return
+Enter choice: 1
+Enter data: 30
+Enter choice: 1
+Enter data: 40
+Enter choice: 3
+content: 30    40    
+Enter choice: 2
+Enter choice: 3
+content: 40    
+Enter choice: 4
