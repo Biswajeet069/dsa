@@ -1,0 +1,182 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct Node
+{
+    int data;
+    struct Node* next;
+}Node;
+Node* head=NULL;
+Node* tail=NULL;
+void create(){
+    while(1){
+    Node* new=(Node*)malloc(sizeof(Node));
+    char cha;
+    printf("Enter data:");
+    scanf("%d",&new->data);
+    new->next=NULL;
+    if(head==NULL){
+        head=new;
+        tail=new;
+    }
+    else{
+        tail->next=new;
+        tail=new;
+    }
+  
+    printf("Do you want to insert another node(y/n):");
+    scanf(" %c", &cha);
+    if(cha!='y' && cha!='Y') break;
+    }
+    
+}
+
+void display(){
+    if(head==NULL){
+        printf("empty LinkedList\n");
+        return;
+    }
+    Node* temp=head;
+    printf("LinkedList content:");
+    while(temp){
+        printf("%d\t",temp->data);
+        temp=temp->next;
+    }
+    printf("NULL\n");
+}
+void insertatbeginning(){
+    Node* new=(Node*)malloc(sizeof(Node));
+    printf("Enter data:");
+    scanf("%d",&new->data);
+    if(head==NULL){
+        head=new;
+        new->next=NULL;
+        return;
+    }
+    else{
+        new->next=head;
+        head=new;
+        return;
+    }
+}
+void insertatend(){
+    Node* new=(Node*)malloc(sizeof(Node));
+    printf("Enter data:");
+    scanf("%d",&new->data);
+    if(head==NULL){
+        head=new;
+        new->next=NULL;
+        return;
+    }
+    else{
+        Node* temp=head;
+        while(temp->next){
+            temp=temp->next;
+        }
+        temp->next=new;
+        new->next=NULL;
+        return;
+    }
+}
+void insertatpos(int p){
+    if(p==1){
+        insertatbeginning();
+        return;
+    }
+    int count=1;
+    Node* temp=head;
+    while(temp!=NULL && count<(p-1)){
+        temp=temp->next;
+        count++;
+    }
+    if(temp==NULL){
+        printf("Invalid position\n");
+        return;
+    }
+    Node* new=(Node*)malloc(sizeof(Node));
+    printf("Enter data:");
+    scanf("%d",&new->data);
+    new->next=temp->next;
+    temp->next=new;
+    return;
+}
+void deleteatbeginning(){
+    if(head==NULL){
+        printf("empty LinkedList\n");
+        return;
+    }
+    Node* temp=head;
+    head=head->next;
+    free(temp);
+    return;
+}
+void deleteatend(){
+    if(!head || !(head->next)){
+        printf("After deleting,empty LinkedList\n");
+        return;
+    }
+    Node* temp=head;
+    while((temp->next)->next!=NULL){
+        temp=temp->next;
+    }
+    Node* last=temp->next;
+    temp->next=NULL;
+    free(last);
+    return;
+
+}
+void deleteatpos(int p){
+    if(p==1){
+        deleteatbeginning();
+        return;
+    }
+    Node* temp=head;
+    int count=1;
+    while(temp!=NULL && count<p-1){
+        temp=temp->next;
+        count++;
+    }
+    if(!temp || !(temp->next)){
+        printf("Invalid position\n");
+        return;
+    }
+    Node* rem=temp->next;
+    temp->next=temp->next->next;
+    free(rem);
+    return;
+}
+
+int main(){
+    create();
+    display();
+    insertatbeginning();
+    insertatend();
+    insertatpos(2);
+    display();
+    deleteatbeginning();
+    deleteatend();
+    display();
+    deleteatpos(2);
+    display();
+    
+
+
+    return 0;
+}
+
+o/p
+
+Enter data: 10
+Do you want to insert another node(y/n): y
+Enter data: 20
+Do you want to insert another node(y/n): y
+Enter data: 30
+Do you want to insert another node(y/n): n
+LinkedList content: 10	20	30	NULL
+Enter data: 5
+Enter data: 40
+Enter data: 25
+LinkedList content: 5	10	20	25	30	40	NULL
+Enter data: 15
+LinkedList content: 15	5	10	20	25	30	40	NULL
+After deleting, empty LinkedList
+LinkedList content: 5	10	20	25	30	40	NULL
